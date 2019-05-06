@@ -149,3 +149,19 @@ app.delete('/api/v1/projects/:id', (request, response) => {
       response.status(500).json({ error });
     });
 });
+
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).select()
+    .then(palettes => {
+      if(!palettes.length) {
+        return response.status(404).json({
+          error: `Could not find a palette with id ${request.params.id}`
+        })
+      }
+      database('palettes').where('id', request.params.id).del()
+        .then(() => response.sendStatus(204))
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});

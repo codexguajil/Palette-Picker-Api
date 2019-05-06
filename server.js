@@ -118,7 +118,6 @@ app.get('/api/v1/palettes/:id', (request, response) => {
 })
 
 app.get('/api/v1/projects/:id/palettes', (request, response) => {
- 
   database('palettes').where('project_id', request.params.id).select()
     .then(palettes => {
       if (palettes.length) {
@@ -128,6 +127,23 @@ app.get('/api/v1/projects/:id/palettes', (request, response) => {
           error: `Could not find palettes with paper id ${request.params.id}`
         });
       }
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+});
+
+app.delete('/api/v1/projects/:id', (request, response) => {
+  database('projects').where('id', request.params.id).select()
+    .then(projects => {
+      if(!projects.length) {
+        return response.status(404).json({
+          error: `Could not find a project with id ${request.params.id}`
+        })
+      }
+      database('palettes').where('project_id', request.params.id).del()
+        .then(() => database('projects').where('id', request.params.id).del())
+        .then(() => response.sendStatus(204))
     })
     .catch(error => {
       response.status(500).json({ error });

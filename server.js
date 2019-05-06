@@ -77,6 +77,22 @@ app.get('/api/v1/projects/:id', (request, response) => {
         response.status(200).json(projects)
       } else {
         response.status(404).json({
+          error: `Could not find a project with id ${request.params.id}`
+        });
+      }
+    })
+    .catch(error => {
+      response.status(500).json({ error });
+    });
+})
+
+app.get('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).select()
+    .then(palettes => {
+      if (palettes.length) {
+        response.status(200).json(palettes)
+      } else {
+        response.status(404).json({
           error: `Could not find a palette with id ${request.params.id}`
         });
       }

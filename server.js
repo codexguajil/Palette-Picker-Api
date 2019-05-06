@@ -4,6 +4,21 @@ const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
 const app = express()
+
+const cors = require('cors');
+app.use(cors());
+
+var whitelist = ['http://localhost:3001', 'http://localhost:3000']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
 app.set('port', process.env.PORT || 3000)
 app.use(express.json())
 app.get('/', (req, res) => res.send('Hello Girl!'))

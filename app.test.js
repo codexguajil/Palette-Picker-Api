@@ -23,4 +23,40 @@ describe('/api/v1', () => {
 
   })
 
+  describe('GET/ projects/:id sad path', () => {
+    it('should return a single project', async () => {
+      const id = 'Q'
+      const res = await request(app).get(`/api/v1/projects/${id}`)
+      expect(res.status).toBe(500)
+      })
+  })
+  
+  describe('GET /palettes', () => {
+    it('should return all the palettes in the DB', async ()=> {
+      const expectedpalettes = palettes.length
+      const res = await request(app).get('/api/v1/palettes')
+      const result = res.body
+      expect(result.length).toEqual(expectedpalettes)
+    })
+  })
+  
+  describe('GET/ palettes/:id', () => {
+    it('should return a single project', async () => {
+      const expectedPalette = await database('palettes').first()
+      const id = expectedPalette.id
+      const res = await request(app).get(`/api/v1/palettes/${id}`)
+      const result = res.body[0]
+      expect(result.id).toBe(expectedPalette.id)
+      })
+  })
+  
+  describe('GET/ palettes/:id sad path', () => {
+    it('should return a single project', async () => {
+      const id = 'Q'
+      const res = await request(app).get(`/api/v1/palettes/${id}`)
+      expect(res.status).toBe(500)
+      })
+  })
+  
+
 })

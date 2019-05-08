@@ -5,6 +5,7 @@ const database = require('knex')(configuration);
 const request = require('supertest');
 const app = require('./app');
 const projects = require('./projects');
+const palettes = require('./palettes');
 
 describe('/api/v1', () => {
 
@@ -57,6 +58,5 @@ describe('/api/v1', () => {
       expect(res.status).toBe(500)
       })
   })
-  
 
 })

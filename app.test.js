@@ -59,4 +59,22 @@ describe('/api/v1', () => {
       })
   })
 
+  describe('DELETE/ projects/:id', () => {
+    it('should delete a project by its id', async () => {
+      const expectedProject = await database('projects').first()
+      const id = expectedProject.id
+      const res = await request(app).delete(`/api/v1/projects/${id}`)
+      expect(res.status).toBe(204)
+    })
+  })
+
+  describe('DELETE/ palettes/:id', () => {
+    it('should delete a palette by its id', async () => {
+      const expectedPalette = await database('palettes').first()
+      const id = expectedPalette.id
+      const res = await request(app).delete(`/api/v1/palettes/${id}`)
+      expect(res.status).toBe(204)
+    })
+  })
+
 })

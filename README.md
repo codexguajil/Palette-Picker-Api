@@ -1,13 +1,16 @@
-## Palette Picker
+# Palette Picker
 
-### Projects
+## Projects
 
-Response
+## GET ```/api/v1/projects```
 
-Status: 200 OK
+#### Response
 
-Link: http://localhost:3000/api/v1/projects
+#### Status: 200 OK
 
+#### Link: ```http://localhost:3000/api/v1/projects```
+
+```
 [
   {
     "id": 14,
@@ -22,15 +25,17 @@ Link: http://localhost:3000/api/v1/projects
     "updated_at": "2019-05-07 3:33:24.272527-01"
   }
 ]
+```
 
-### GET /api/v1/projects/:id
+## GET ```/api/v1/projects/:id```
 
-Response
+#### Response
 
-Status: 200 OK
+#### Status: 200 OK
 
-Link: http://localhost:3000/api/v1/projects/2
+#### Link: ```http://localhost:3000/api/v1/projects/2```
 
+```
 [
   {
     "id": 2,
@@ -39,23 +44,27 @@ Link: http://localhost:3000/api/v1/projects/2
     "updated_at": "2019-05-07 3:33:24.272527-01"
   }
 ]
+```
 
-Status: 404 NOT FOUND
+#### Status: 404 NOT FOUND
 
-Link: http://localhost:3000/api/v1/projects/101
+#### Link: ```http://localhost:3000/api/v1/projects/101```
 
+```
 {
     "error": "Could not find a project with id 101"
 }
+```
 
-### GET /api/v1/projects/:id/palettes
+## GET ```/api/v1/projects/:id/palettes```
 
-Response
+#### Response
 
-Status: 200 OK
+#### Status: 200 OK
 
-Link: http://localhost:3000/api/v1/projects/14/palettes
+#### Link: ```http://localhost:3000/api/v1/projects/14/palettes```
 
+```
 [
   {
     "color1" : "red",
@@ -70,12 +79,54 @@ Link: http://localhost:3000/api/v1/projects/14/palettes
     "name" : "House Decor"
   }
 ]
+```
 
-Status: 404 NOT FOUND
+#### Status: 404 NOT FOUND
 
-Link: http://localhost:3000/api/v1/projects/140/palettes
+#### Link: ```http://localhost:3000/api/v1/projects/140/palettes```
 
+```
 {
     "error": "Could not find palettes with project id 140"
 }
+```
+
+## POST ```/api/v1/projects```
+
+#### Required Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | `the project title` |
+
+#### Example:
+
+```{ "title": "Artist Palette" }```
+
+#### Response
+
+#### Status 201 Created
+
+#### Link: ```http://localhost:3000/api/v1/projects```
+
+```
+{
+  "id": 11
+}
+```
+#### Response
+
+#### Status 422 Unprocessable Entity
+
+#### Link: ```http://localhost:3000/api/v1/projects```
+
+#### Example:
+
+```{ "title": "" }```
+
+```
+{
+  error: `Expected format: { title: <String> }. You're missing a title property.` }
+}
+```
 

@@ -13,7 +13,6 @@ exports.seed = function(knex, Promise) {
             { name: 'House Decor', color1: 'red', color2: 'green', color3: 'orange', color4: 'purple', color5: 'white', project_id: project[0] }
           ])
         })
-        .then(() => console.log('Seeding complete!'))
         .catch(error => console.log(`Error seeding data: ${error}`))
       ])
     })

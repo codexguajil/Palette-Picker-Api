@@ -1,6 +1,6 @@
-##Palette Picker
+## Palette Picker
 
-###Projects
+### Projects
 
 Response
 
@@ -23,7 +23,7 @@ Link: http://localhost:3000/api/v1/projects
   }
 ]
 
-###GET /api/v1/projects/:id
+### GET /api/v1/projects/:id
 
 Response
 
@@ -48,7 +48,7 @@ Link: http://localhost:3000/api/v1/projects/101
     "error": "Could not find a project with id 101"
 }
 
-###GET /api/v1/projects/:id/palettes
+### GET /api/v1/projects/:id/palettes
 
 Response
 

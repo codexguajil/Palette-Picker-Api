@@ -17,6 +17,12 @@
   "scripts": {
     "test": "jest --watchAll"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.{js}", 
+      "!db/seeds/test/palettes.js"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

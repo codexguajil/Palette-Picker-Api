@@ -21,8 +21,6 @@ const corsOptions = {
 
 app.use(express.json())
 
-app.get('/', (req, res) => res.send('Hello Girl!'))
-
 app.get('/api/v1/projects', (request, response) => {
   database('projects').select()
     .then((projects) => {

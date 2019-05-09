@@ -122,7 +122,7 @@ app.get('/api/v1/projects/:id/palettes', (request, response) => {
         response.status(200).json(palettes);
       } else {
         response.status(404).json({ 
-          error: `Could not find palettes with paper id ${request.params.id}`
+          error: `Could not find palettes with project id ${request.params.id}`
         });
       }
     })

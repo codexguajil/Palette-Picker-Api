@@ -17,7 +17,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "start": "node server.js",
-    "migrage": "knex:migrate latest"
+    "migrate": "knex:migrate latest"
   },
   "jest": {
     "collectCoverageFrom": [

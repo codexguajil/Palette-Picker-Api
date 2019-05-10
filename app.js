@@ -8,7 +8,7 @@ const app = express()
 const cors = require('cors');
 app.use(cors());
 
-let whitelist = ['http://localhost:3001', 'http://localhost:3000']
+let whitelist = ['http://localhost:3001', 'http://localhost:3000', 'https://em-ja-palette-picker-api.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {

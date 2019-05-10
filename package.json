@@ -21,7 +21,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "**/*.{js}", 
+      "**/*.{js}",
       "!db/seeds/test/palettes.js"
     ]
   },

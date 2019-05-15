@@ -162,4 +162,31 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
     });
 });
 
+app.patch('/api/v1/projects/:id', (request, response) => {
+  const {title} = request.body
+  database('projects').where('id', request.params.id).select()
+    .then(projects => {
+      if(!projects.length) {
+        return response.status(404).json({
+          error: `Could not find a project with id ${request.params.id}`
+        })
+      }
+      database('projects').where('id', request.params.id).update('title', title)
+        .then(() => response.status(203).json('updated project title'))
+    })
+})
+
+app.patch('/api/v1/palettes/:id', (request, response) => {
+  database('palettes').where('id', request.params.id).select()
+    .then(palettes => {
+      if(!palettes.length) {
+        return response.status(404).json({
+          error: `Could not find a palette with id ${request.params.id}`
+        })
+      }
+      database('palettes').where('id', request.params.id).update(request.body)
+        .then(() => response.status(203).json('updated palette title'))
+    })
+})
+
 module.exports = app;

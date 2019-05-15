@@ -184,7 +184,6 @@ app.patch('/api/v1/projects/:id', (request, response) => {
 })
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
-  const {name} = request.body
   database('palettes').where('id', request.params.id).select()
     .then(palettes => {
       if(!palettes.length) {
@@ -192,7 +191,7 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
           error: `Could not find a palette with id ${request.params.id}`
         })
       }
-      database('palettes').where('id', request.params.id).update('name', name)
+      database('palettes').where('id', request.params.id).update(request.body)
         .then(() => response.status(203).json('updated palette title'))
     })
 })

@@ -43,7 +43,6 @@ app.get('/api/v1/palettes', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
-
   for (let requiredParameter of ['title']) {
     if (!project[requiredParameter]) {
       return response 
@@ -61,9 +60,8 @@ app.post('/api/v1/projects', (request, response) => {
     });
 });
 
-app.post('/api/v1/palettes', (request, response) => {
+app.post('/api/v1/palettes', async (request, response) => {
   const palette = request.body;
-
   for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
     if(!palette[requiredParameter]) {
       return response
@@ -72,7 +70,16 @@ app.post('/api/v1/palettes', (request, response) => {
     }
   }
 
-  database('palettes').insert(palette, 'id')
+  palette.project_id = await database('projects').where('title', request.body.title).select()
+    .then(projects => {
+      let filteredProject = projects.find(project => project.title == request.body.title)
+      console.log(filteredProject.id)
+      return filteredProject.id
+    })
+
+  delete palette.title
+
+  await database('palettes').insert(palette, 'id')
     .then(palette => {
       response.status(201).json({ id: palette[0] })
     })
@@ -161,5 +168,33 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
       response.status(500).json({ error });
     });
 });
+
+app.patch('/api/v1/projects/:id', (request, response) => {
+  const {title} = request.body
+  database('projects').where('id', request.params.id).select()
+    .then(projects => {
+      if(!projects.length) {
+        return response.status(404).json({
+          error: `Could not find a project with id ${request.params.id}`
+        })
+      }
+      database('projects').where('id', request.params.id).update('title', title)
+        .then(() => response.status(203).json('updated project title'))
+    })
+})
+
+app.patch('/api/v1/palettes/:id', (request, response) => {
+  const {name} = request.body
+  database('palettes').where('id', request.params.id).select()
+    .then(palettes => {
+      if(!palettes.length) {
+        return response.status(404).json({
+          error: `Could not find a palette with id ${request.params.id}`
+        })
+      }
+      database('palettes').where('id', request.params.id).update('name', name)
+        .then(() => response.status(203).json('updated palette title'))
+    })
+})
 
 module.exports = app;

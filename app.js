@@ -60,8 +60,9 @@ app.post('/api/v1/projects', (request, response) => {
     });
 });
 
-app.post('/api/v1/palettes', async (request, response) => {
+app.post('/api/v1/palettes', (request, response) => {
   const palette = request.body;
+
   for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
     if(!palette[requiredParameter]) {
       return response
@@ -70,16 +71,7 @@ app.post('/api/v1/palettes', async (request, response) => {
     }
   }
 
-  palette.project_id = await database('projects').where('title', request.body.title).select()
-    .then(projects => {
-      let filteredProject = projects.find(project => project.title == request.body.title)
-      console.log(filteredProject.id)
-      return filteredProject.id
-    })
-
-  delete palette.title
-
-  await database('palettes').insert(palette, 'id')
+  database('palettes').insert(palette, 'id')
     .then(palette => {
       response.status(201).json({ id: palette[0] })
     })

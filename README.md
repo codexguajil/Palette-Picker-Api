@@ -277,4 +277,42 @@
 }
 ```
 
-## Delete
+## Delete ```http://localhost/3000/api/v1/projects/:id```
+
+#### Response
+
+#### Status 204 No Content
+
+#### Link ```http://localhost/3000/api/v1/projects/1```
+
+#### Response
+
+#### Status 404 NOT FOUND
+
+#### Link ```http://localhost/3000/api/v1/projects/200```
+
+```
+{
+  "error": "Could not find a project with id 200"
+}
+```
+
+## Delete ```http://localhost/3000/api/v1/palettes/:id```
+
+#### Response
+
+#### Status 204 No Content
+
+#### Link ```http://localhost/3000/api/v1/palettes/2```
+
+#### Response
+
+#### Status 404 NOT FOUND
+
+#### Link ```http://localhost/3000/api/v1/palettes/1000```
+
+```
+{
+  "error": "Could not find a palette with id 1000"
+}
+```

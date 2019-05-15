@@ -8,7 +8,7 @@ const app = express()
 const cors = require('cors');
 app.use(cors());
 
-let whitelist = ['http://localhost:3001', 'http://localhost:3000']
+let whitelist = ['http://localhost:3001', 'http://localhost:3000', 'https://em-ja-palette-picker-api.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -43,7 +43,6 @@ app.get('/api/v1/palettes', (request, response) => {
 
 app.post('/api/v1/projects', (request, response) => {
   const project = request.body;
-
   for (let requiredParameter of ['title']) {
     if (!project[requiredParameter]) {
       return response 
@@ -61,9 +60,8 @@ app.post('/api/v1/projects', (request, response) => {
     });
 });
 
-app.post('/api/v1/palettes', (request, response) => {
+app.post('/api/v1/palettes', async (request, response) => {
   const palette = request.body;
-
   for (let requiredParameter of ['name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
     if(!palette[requiredParameter]) {
       return response
@@ -72,7 +70,16 @@ app.post('/api/v1/palettes', (request, response) => {
     }
   }
 
-  database('palettes').insert(palette, 'id')
+  palette.project_id = await database('projects').where('title', request.body.title).select()
+    .then(projects => {
+      let filteredProject = projects.find(project => project.title == request.body.title)
+      console.log(filteredProject.id)
+      return filteredProject.id
+    })
+
+  delete palette.title
+
+  await database('palettes').insert(palette, 'id')
     .then(palette => {
       response.status(201).json({ id: palette[0] })
     })

@@ -15,11 +15,13 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "jest --watchAll"
+    "test": "NODE_ENV=test jest --forceExit",
+    "start": "node server.js",
+    "migrate": "knex migrate:latest --env=test"
   },
   "jest": {
     "collectCoverageFrom": [
-      "**/*.{js}", 
+      "**/*.{js}",
       "!db/seeds/test/palettes.js"
     ]
   },

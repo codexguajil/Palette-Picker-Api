@@ -1,5 +1,9 @@
 # Palette Picker
 
+### Heroku URL: https://em-ja-palette-picker-api.herokuapp.com
+
+Frontend repo: https://github.com/JakeAdmire/JA-EM--PalettePicker
+
 ## Projects
 
 ## GET ```/api/v1/projects```
@@ -315,4 +319,38 @@
 {
   "error": "Could not find a palette with id 1000"
 }
+```
+## PATCH ```/api/v1/projects/:id```
+
+#### Required Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `title` | `string` | `the new project title` |
+
+#### Example:
+
+```{ "title": "Artist Palette" }```
+
+#### Response
+
+#### Status 203 Updated
+
+#### Link: ```http://localhost:3000/api/v1/projects/:14```
+
+```
+{
+  "update project title"
+}
+```
+#### Response
+
+#### Status 404 Unprocessable Entity
+
+#### Link: ```http://localhost:3000/api/v1/projects/:99```
+
+#### Example:
+
+```
+{ error: `Could not find a project with id ${request.params.id}` }
 ```

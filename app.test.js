@@ -124,7 +124,7 @@ describe('/api/v1', () => {
 
   describe('POST /palettes', () => {
 
-    it('should add a `palette` to the database', async () => {
+    it.skip('should add a `palette` to the database', async () => {
       const newPalette = { 
         name: 'Test palette', 
         color1: 'red', 

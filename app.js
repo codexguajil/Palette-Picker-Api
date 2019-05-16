@@ -90,7 +90,6 @@ app.post('/api/v1/palettes', (request, response) => {
           .send( {error: 'Palette name already exists'})
           .end()
       } else if(!palette.project_id) {
-        console.log(palettes)
         return response
           .status(400)
           .send( {error: 'Create a project first'})

@@ -47,13 +47,24 @@ app.post('/api/v1/projects', (request, response) => {
     if (!project[requiredParameter]) {
       return response 
         .status(422)
-        .send({ error: `Expected format: { title: <String> }. You're missing a "${requiredParameter}" property.` });
+        .send({ error: `Expected format: { title: <String> }. You're missing a "${requiredParameter}" property.` })
+        .end();
     }
   }
 
-  database('projects').insert(project, 'id')
-    .then(project => {
-      response.status(201).json({ id: project[0] })
+  database('projects').where('title', project.title).select()
+  .then(projects => {
+    if (projects.length) {
+        return response
+          .status(409)
+          .send( {error: 'Project title already exists'})
+          .end()
+      } else {
+        database('projects').insert(project, 'id')
+          .then(project => {
+            response.status(201).json({ id: project[0] })
+          })
+      }
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -71,9 +82,26 @@ app.post('/api/v1/palettes', (request, response) => {
     }
   }
 
-  database('palettes').insert(palette, 'id')
-    .then(palette => {
-      response.status(201).json({ id: palette[0] })
+  database('palettes').where('name', palette.name).select()
+  .then(palettes => {
+    if (palettes.length) {
+        return response
+          .status(409)
+          .send( {error: 'Palette name already exists'})
+          .end()
+      } else if(!palette.project_id) {
+        console.log(palettes)
+        return response
+          .status(400)
+          .send( {error: 'Create a project first'})
+          .end()
+      }
+      else {
+        database('palettes').insert(palette, 'id')
+          .then(palette => {
+            response.status(201).json({ id: palette[0] })
+          })
+      }
     })
     .catch(error => {
       response.status(500).json({ error });
@@ -173,6 +201,9 @@ app.patch('/api/v1/projects/:id', (request, response) => {
       database('projects').where('id', request.params.id).update('title', title)
         .then(() => response.status(203).json('updated project title'))
     })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
 })
 
 app.patch('/api/v1/palettes/:id', (request, response) => {
@@ -186,6 +217,9 @@ app.patch('/api/v1/palettes/:id', (request, response) => {
       database('palettes').where('id', request.params.id).update(request.body)
         .then(() => response.status(203).json('updated palette title'))
     })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
 })
 
 module.exports = app;

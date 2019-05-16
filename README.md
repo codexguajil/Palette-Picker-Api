@@ -1,6 +1,7 @@
 # Palette Picker
 
 ### Heroku URL: https://em-ja-palette-picker-api.herokuapp.com
+#### Heroku endpoints: /api/v1/projects, /api/v1/palettes
 
 Frontend repo: https://github.com/JakeAdmire/JA-EM--PalettePicker
 
